@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>أسئلة التحقق من محتوى المساعد الذكي — وينت</title>
+<style>
+:root {
+  --blue: #100C9C;
+  --red: #CC1028;
+  --ink: #1F2430;
+  --grey: #5B6270;
+  --rule: #D5D8E0;
+  --tint: #EEF0F8;
+  --paper: #FFFFFF;
+  --field: #B9BED0;
+  --serif: "Sakkal Majalla", "Traditional Arabic", "Noto Naskh Arabic", "Times New Roman", serif;
+  --sans: "Segoe UI", "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.85; }
+a { color: var(--blue); }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Masthead */
+.masthead { max-width: 76rem; margin: 0 auto; padding: 2.5rem 2rem 2rem; border-bottom: 4px solid var(--blue); }
+.wordmark { display: inline-block; font-family: Georgia, "Times New Roman", serif; font-weight: 700; font-size: 2.1rem; line-height: 1; letter-spacing: .01em; }
+.wordmark .we { color: var(--red); }
+.wordmark .net { color: var(--blue); }
+.org { margin: .4rem 0 1.6rem; color: var(--grey); font-size: .95rem; }
+.masthead h1 { margin: 0 0 1rem; font-family: var(--serif); font-weight: 700; font-size: clamp(2.4rem, 5vw, 3.6rem); line-height: 1.25; color: var(--blue); max-width: 22ch; }
+.lead { max-width: 62ch; margin: 0 0 1.4rem; font-size: 1.1rem; }
+.howto { max-width: 62ch; margin: 0 0 1.6rem; padding-inline-start: 1.4rem; }
+.howto li { margin-bottom: .35rem; }
+.howto li::marker { color: var(--red); font-weight: 700; }
+.autosave { color: var(--grey); font-size: .95rem; margin: 0 0 1.6rem; }
+.respondent { border: 1px solid var(--rule); border-radius: 6px; padding: 1rem 1.25rem 1.25rem; margin: 0; max-width: 62rem; }
+.respondent legend { font-weight: 700; padding-inline: .4rem; }
+.respondent-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .9rem 1.2rem; }
+
+/* Fields */
+.field-label { display: block; font-weight: 600; margin: 1rem 0 .3rem; }
+.respondent .field-label { margin-top: 0; }
+input[type="text"], input[type="date"], textarea {
+  width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--field); border-radius: 4px; padding: .55rem .7rem; }
+textarea { min-height: 5.5rem; resize: vertical; line-height: 1.7; overflow: hidden; }
+::placeholder { color: #8A90A0; }
+
+/* Layout */
+.layout { max-width: 76rem; margin: 0 auto; display: grid; grid-template-columns: 19rem minmax(0, 1fr); gap: 0 3rem; padding: 0 2rem; }
+.rail { position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; padding: 1.75rem 0 1.5rem 1.5rem; border-inline-end: 1px solid var(--rule); }
+.progress-text { margin: 0 0 .5rem; font-weight: 600; }
+.progress-track { height: 6px; background: var(--tint); border-radius: 3px; overflow: hidden; margin-bottom: 1.4rem; }
+.progress-bar { height: 100%; width: 0; background: var(--blue); }
+.rail-group { margin: 1.2rem 0 .4rem; font-weight: 700; color: var(--blue); font-size: .95rem; }
+.rail-list { list-style: none; margin: 0; padding: 0; }
+.rail-list a { display: grid; grid-template-columns: 1.8rem 1fr .7rem; align-items: center; gap: .4rem; padding: .22rem .3rem; border-radius: 4px; color: var(--ink); text-decoration: none; font-size: .93rem; line-height: 1.5; }
+.rail-list a:hover { background: var(--tint); }
+.rail-num { color: var(--red); font-weight: 700; text-align: center; }
+.rail-dot { width: .7rem; height: .7rem; border-radius: 50%; border: 2px solid var(--field); }
+.rail-list a[data-answered] .rail-dot { background: var(--blue); border-color: var(--blue); }
+.actions { margin-top: 1.6rem; display: grid; gap: .6rem; }
+.btn { font: inherit; font-weight: 600; font-size: 1rem; border-radius: 4px; padding: .65rem 1rem; cursor: pointer; border: 2px solid var(--blue); }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: #0B0874; border-color: #0B0874; }
+.btn-secondary { background: var(--paper); color: var(--blue); }
+.btn-secondary:hover { background: var(--tint); }
+.status { min-height: 1.6rem; margin: .2rem 0 0; color: var(--grey); font-size: .9rem; }
+
+/* Questions */
+main { padding-bottom: 4rem; min-width: 0; }
+.group { padding-top: 2.25rem; }
+.group h2 { font-family: var(--serif); font-size: 2.3rem; line-height: 1.3; color: var(--blue); margin: 0; }
+.group-intro { color: var(--grey); margin: .2rem 0 0; max-width: 62ch; }
+.q { display: grid; grid-template-columns: 3.6rem minmax(0, 1fr); gap: 0 1.2rem; padding: 2.1rem 0; border-bottom: 1px solid var(--rule); }
+.q:last-child { border-bottom: 0; }
+.q-num { margin: 0; font-family: var(--serif); font-weight: 700; font-size: 3.3rem; line-height: .95; color: var(--red); text-align: center; }
+.q[data-answered] .q-num { color: var(--blue); }
+.q-main { max-width: 46rem; }
+.q-code { margin: 0; color: var(--grey); font-size: .85rem; text-align: end; }
+.q h3 { margin: 0 0 .6rem; font-family: var(--serif); font-size: 1.85rem; line-height: 1.35; }
+.q-text { font-size: 1.08rem; margin: 0 0 .8rem; }
+.q-why, .q-src { color: var(--grey); margin: 0 0 .35rem; font-size: .97rem; }
+bdi { unicode-bidi: isolate; }
+
+.current { margin: 1rem 0 0; }
+.current > summary { cursor: pointer; color: var(--blue); font-weight: 600; padding: .3rem 0; }
+.excerpt { border-inline-start: 3px solid var(--rule); padding: .2rem 1rem .2rem 0; margin: 1rem 0; padding-inline-start: 1rem; padding-inline-end: 0; }
+.excerpt-doc { margin: 0; color: var(--grey); font-size: .88rem; }
+.excerpt h4 { margin: .1rem 0 .4rem; font-size: 1.02rem; }
+.excerpt-body { font-size: .95rem; }
+.excerpt-body p { margin: 0 0 .6rem; }
+.excerpt-body ul, .excerpt-body ol { margin: 0 0 .6rem; padding-inline-start: 1.3rem; }
+.excerpt-withheld { margin: 0 0 .4rem; color: var(--grey); font-size: .92rem; }
+.excerpt-key { margin: 0; color: #8A90A0; font-size: .8rem; text-align: end; }
+.excerpt[dir="ltr"] .excerpt-key { text-align: start; }
+pre { background: #F5F6FA; border: 1px solid var(--rule); border-radius: 4px; padding: .7rem .9rem; overflow-x: auto; font-size: .85rem; line-height: 1.5; text-align: left; }
+code { font-family: Consolas, "Courier New", monospace; font-size: .9em; }
+.table-wrap { overflow-x: auto; margin: 0 0 .7rem; }
+table { border-collapse: collapse; font-size: .85rem; line-height: 1.5; }
+th, td { border: 1px solid var(--rule); padding: .3rem .5rem; vertical-align: top; }
+th { background: var(--tint); text-align: start; }
+.affected-intro { margin: 1rem 0 .3rem; color: var(--grey); }
+.doc-list { margin: 0; padding-inline-start: 1.3rem; }
+
+.answer { margin-top: 1.3rem; background: var(--tint); border-radius: 6px; padding: .9rem 1.2rem 1.2rem; }
+.answer > .field-label:first-child { margin-top: .2rem; }
+.decision { border: 0; padding: 0; margin: .2rem 0 0; }
+.decision legend { font-weight: 600; padding: 0; margin-bottom: .3rem; }
+.choices { display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; }
+.choice { display: inline-flex; align-items: center; gap: .45rem; cursor: pointer; }
+.choice input { width: 1.1rem; height: 1.1rem; accent-color: var(--blue); margin: 0; }
+
+.page-foot { max-width: 76rem; margin: 0 auto; padding: 1.5rem 2rem 3rem; border-top: 1px solid var(--rule); color: var(--grey); font-size: .9rem; }
+
+@media (max-width: 60rem) {
+  .layout { grid-template-columns: minmax(0, 1fr); padding: 0 1.1rem; }
+  .masthead { padding: 1.8rem 1.1rem 1.5rem; }
+  .respondent-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rail { position: static; max-height: none; overflow: visible; border-inline-end: 0; border-bottom: 1px solid var(--rule); padding: 1rem 0; }
+  .rail-index { display: none; }
+  .progress-track { margin-bottom: .6rem; }
+  .actions { grid-template-columns: 1fr 1fr; margin-top: 0; }
+  .status { grid-column: 1 / -1; min-height: 0; }
+  .q { grid-template-columns: 2.4rem minmax(0, 1fr); gap: 0 .8rem; }
+  .q-num { font-size: 2.4rem; }
+}
+@media (max-width: 30rem) {
+  .respondent-grid { grid-template-columns: minmax(0, 1fr); }
+  .actions { grid-template-columns: minmax(0, 1fr); }
+}
+@media print {
+  @page { size: A4; margin: 16mm 14mm; }
+  body { font-size: 11.5pt; }
+  .rail, .autosave { display: none; }
+  .layout { display: block; padding: 0; }
+  .masthead { padding: 0 0 1rem; }
+  .q { break-inside: auto; }
+  .answer { break-inside: avoid; background: #fff; border: 1px solid var(--rule); }
+  textarea, input[type="text"], input[type="date"] { border: 0; border-bottom: 1px solid var(--field); border-radius: 0; resize: none; }
+  .current > summary { color: var(--ink); }
+}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="wordmark" dir="ltr" lang="en" role="img" aria-label="WeNet"><span class="we">WE</span><span class="net">NET</span></div>
+  <p class="org">شركة الخدمات المالية اليمنية</p>
+  <h1>أسئلة التحقق من محتوى المساعد الذكي</h1>
+  <p class="lead">أعددنا قاعدة معرفة يعتمد عليها المساعد الذكي في الإجابة عن أسئلة الجمهور والتجار والمؤسسات المالية والمطورين حول وينت. وقبل إتاحتها نحتاج إلى تأكيدكم لـ 24 نقطة لا تحسمها المصادر المتوفرة لدينا، أو تتعارض فيها هذه المصادر.</p>
+  <ol class="howto">
+    <li>اقرؤوا السؤال، ثم افتحوا «النص الحالي في قاعدة المعرفة» لتروا ما يقوله المساعد اليوم.</li>
+    <li>اكتبوا الإجابة، واختاروا القرار إن ظهرت خيارات، واذكروا الوثيقة أو الإدارة المعتمدة التي تستند إليها الإجابة.</li>
+    <li>عند الانتهاء اضغطوا «تنزيل الإجابات»، وأرسلوا الملف الناتج إلى فريق قاعدة المعرفة.</li>
+  </ol>
+  <p class="autosave">تُحفظ إجاباتكم تلقائيًا في هذا المتصفح على هذا الجهاز، فيمكنكم إغلاق الصفحة وإكمالها لاحقًا.</p>
+  <fieldset class="respondent">
+    <legend>بيانات المراجع</legend>
+    <div class="respondent-grid">
+      <div><label class="field-label" for="r-name">الاسم</label><input id="r-name" type="text" data-key="respondent.name" autocomplete="name"></div>
+      <div><label class="field-label" for="r-title">المسمى الوظيفي</label><input id="r-title" type="text" data-key="respondent.title" autocomplete="organization-title"></div>
+      <div><label class="field-label" for="r-dept">الإدارة</label><input id="r-dept" type="text" data-key="respondent.department"></div>
+      <div><label class="field-label" for="r-date">تاريخ المراجعة</label><input id="r-date" type="date" data-key="respondent.date"></div>
+    </div>
+  </fieldset>
+</header>
+
+<div class="layout">
+  <nav class="rail" aria-label="فهرس الأسئلة">
+    <p class="progress-text" aria-live="polite">أُجيب عن <span id="answered-count">0</span> من 24 سؤالًا</p>
+    <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
+    <div class="rail-index"><p class="rail-group">النشر والتوثيق الفني</p><ol class="rail-list"><li><a href="#OQ-01" data-rail="OQ-01"><span class="rail-num">1</span><span class="rail-title">إتاحة أدلة التكامل للمطورين</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-02" data-rail="OQ-02"><span class="rail-num">2</span><span class="rail-title">الإصدارات المعتمدة للواجهات</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-03" data-rail="OQ-03"><span class="rail-num">3</span><span class="rail-title">الطرف المستقبل «FP»</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-04" data-rail="OQ-04"><span class="rail-num">4</span><span class="rail-title">عدد الطلبات في الأدلة</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-05" data-rail="OQ-05"><span class="rail-num">5</span><span class="rail-title">ISO 20022 عبر XML وJSON</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-06" data-rail="OQ-06"><span class="rail-num">6</span><span class="rail-title">دورة حياة UMID واسمه</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-07" data-rail="OQ-07"><span class="rail-num">7</span><span class="rail-title">وحدة حقل expiry</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-08" data-rail="OQ-08"><span class="rail-num">8</span><span class="rail-title">أسماء ترويسات البوابة</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li></ol><p class="rail-group">المعلومات التجارية والدعم والعملاء</p><ol class="rail-list"><li><a href="#OQ-09" data-rail="OQ-09"><span class="rail-num">9</span><span class="rail-title">الرسوم والتعرفة</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-10" data-rail="OQ-10"><span class="rail-num">10</span><span class="rail-title">قنوات الدعم والشكاوى</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-11" data-rail="OQ-11"><span class="rail-num">11</span><span class="rail-title">الاسترداد والنزاعات</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-12" data-rail="OQ-12"><span class="rail-num">12</span><span class="rail-title">البنوك والتطبيقات المشاركة</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-13" data-rail="OQ-13"><span class="rail-num">13</span><span class="rail-title">موعد وصول المبالغ للتجار</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-14" data-rail="OQ-14"><span class="rail-num">14</span><span class="rail-title">بطاقات منصة يسر</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-15" data-rail="OQ-15"><span class="rail-num">15</span><span class="rail-title">بيئة الاختبار وبيانات الاعتماد</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-16" data-rail="OQ-16"><span class="rail-num">16</span><span class="rail-title">سياسة الخصوصية</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-17" data-rail="OQ-17"><span class="rail-num">17</span><span class="rail-title">الأسماء المعتمدة</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-18" data-rail="OQ-18"><span class="rail-num">18</span><span class="rail-title">أهلية المؤسسات والانضمام</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-19" data-rail="OQ-19"><span class="rail-num">19</span><span class="rail-title">معايير وشهادات الأمن</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-20" data-rail="OQ-20"><span class="rail-num">20</span><span class="rail-title">مدة تسجيل التاجر</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li></ol><p class="rail-group">ملاحظات ظهرت أثناء إعداد المحتوى</p><ol class="rail-list"><li><a href="#OQ-21" data-rail="OQ-21"><span class="rail-num">21</span><span class="rail-title">القيم والرؤية والرسالة</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-22" data-rail="OQ-22"><span class="rail-num">22</span><span class="rail-title">الوضع الإنتاجي لمعيار QR</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-23" data-rail="OQ-23"><span class="rail-num">23</span><span class="rail-title">الاسم القانوني بالإنجليزية</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li><li><a href="#OQ-24" data-rail="OQ-24"><span class="rail-num">24</span><span class="rail-title">المدفوعات الفورية وITS</span><span class="rail-dot" aria-hidden="true"></span><span class="visually-hidden rail-state">لم يُجب عنه بعد</span></a></li></ol></div>
+    <div class="actions">
+      <button type="button" class="btn btn-primary" id="download">تنزيل الإجابات</button>
+      <button type="button" class="btn btn-secondary" id="print">طباعة أو حفظ PDF</button>
+      <p class="status" id="status" role="status"></p>
+    </div>
+  </nav>
+  <main><section class="group" aria-labelledby="g1"><h2 id="g1">النشر والتوثيق الفني</h2><p class="group-intro">أسئلة تحدد ما يجوز إتاحته للمطورين، وتحسم تعارضات في أدلة التكامل.</p>
+<article class="q" id="OQ-01" data-qid="OQ-01">
+  <p class="q-num" aria-hidden="true">1</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-01</p>
+    <h3>إتاحة أدلة التكامل للمطورين عبر قناة خارجية</h3>
+    <p class="q-text">هل توافق وينت على إتاحة وثائق تكامل <bdi>PSP</bdi> الإصدار 1.3 و<bdi>TSP</bdi> الإصدار 1.2، وهي مصنفة «سرية»، عبر قناة مطورين خارجية مقيدة؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> إلى أن تتم الموافقة لن يُعتمد أي قسم من أقسام المطورين، ولن يتضمن ملف المطورين إلا المحتوى العام.</p>
+    <p class="q-src"><strong>المصادر:</strong> دليل تكامل <bdi>PSP</bdi> الإصدار 1.3 (التصنيف «سري»، والبند 9)؛ دليل تكامل <bdi>TSP</bdi> الإصدار 1.2 (التصنيف «سري»).</p>
+    <div class="affected"><p class="affected-intro">جميع أقسام وثائق المطورين التالية:</p><ul class="doc-list"><li><bdi lang="en">PSP API v1.3 — payment-order messages</bdi></li><li><bdi lang="en">PSP API v1.3 — merchant and financial-account APIs</bdi></li><li><bdi lang="en">PSP API v1.3 — errors, operations and go-live</bdi></li><li><bdi lang="en">TSP API v1.2 — overview and application authorization</bdi></li><li><bdi lang="en">TSP API v1.2 — merchants, terminals and accounts</bdi></li><li><bdi lang="en">TSP API v1.2 — payment methods, payment orders and QR codes</bdi></li><li><bdi lang="en">TSP API v1.2 — payment submissions and reconciliation</bdi></li></ul></div>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-01-decision" value="نوافق" data-key="OQ-01.decision"> <span>نوافق</span></label><label class="choice"><input type="radio" name="OQ-01-decision" value="لا نوافق" data-key="OQ-01.decision"> <span>لا نوافق</span></label><label class="choice"><input type="radio" name="OQ-01-decision" value="نوافق بشروط" data-key="OQ-01.decision"> <span>نوافق بشروط</span></label></div></fieldset>
+      <label class="field-label" for="OQ-01-answer">الإجابة</label>
+      <textarea id="OQ-01-answer" rows="3" data-key="OQ-01.answer"></textarea>
+      <label class="field-label" for="OQ-01-ref">المرجع المعتمد</label>
+      <input id="OQ-01-ref" type="text" data-key="OQ-01.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-02" data-qid="OQ-02">
+  <p class="q-num" aria-hidden="true">2</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-02</p>
+    <h3>الإصدارات المعتمدة للواجهات البرمجية وتسميتها</h3>
+    <p class="q-text">ما الإصدارات المعتمدة حاليًا للواجهات البرمجية؟ توجد واجهة <bdi>FI</bdi> الإصدار 1.1 وواجهة <bdi>TSP</bdi> الإصدار 1.1 إلى جانب <bdi>PSP</bdi> الإصدار 1.3 و<bdi>TSP</bdi> الإصدار 1.2، ويسمي سجل الحقائق الإصدار 1.3 «<bdi>PSP/FI</bdi>». فهل الاسم الرسمي للإصدار 1.3 هو «واجهة <bdi>PSP</bdi>» أم «واجهة <bdi>FI</bdi>» أم كلاهما؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يجب أن يتكامل المطورون مع الإصدار الصحيح وبالاسم الصحيح.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 9 الفقرة 9؛ دليل <bdi>PSP</bdi> الإصدار 1.3 البند 1؛ دليل <bdi>TSP</bdi> الإصدار 1.2 البند 1.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (4 أقسام)</summary><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">Integration overview for developers</p><h4>APIs for integrating with WeNet</h4><div class="excerpt-body"><p>Integrating with WeNet's Unified Payment Interface (UPI) is documented in two APIs:</p>
+<ul><li><strong>PSP API, version 1.3:</strong> for payment service provider (PSP), acquiring, merchant-integration and operations teams. It covers payment-order lookup, payment-order status, payment-order submission, merchant onboarding, duplicate-merchant verification, merchant lookup by UMID, and financial-account linking.</li><li><strong>TSP API, version 1.2:</strong> for technical provider (TSP) and acquirer application teams. It covers authorizing an application's access to a merchant by UMID, reading the calling application, managing merchant terminals and accounts, reading payment methods, creating payment orders presented as QR codes or short codes, and reconciling payment submissions.</li></ul>
+<p>A TSP's system manages merchants and payment orders but does not execute financial transactions.</p></div><p class="excerpt-key" dir="ltr"><bdi>integration-overview#participants-and-apis</bdi></p></section><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">Developer FAQ</p><h4>Which APIs does WeNet provide for integration?</h4><div class="excerpt-body"><p>WeNet's Unified Payment Interface integration is documented in two APIs. The PSP API (version 1.3) covers payment-order lookup, status and submission, merchant onboarding, duplicate-merchant verification, merchant lookup by UMID, and financial-account linking. The TSP API (version 1.2) covers merchant authorization by UMID, terminals and accounts, payment methods, payment orders with QR codes, and payment-submission reconciliation.</p></div><p class="excerpt-key" dir="ltr"><bdi>faq-developers#which-apis-exist</bdi></p></section><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">PSP API v1.3 — payment-order messages</p><h4>PSP API overview and quick start</h4><p class="excerpt-withheld" lang="ar" dir="rtl">لا يُعرض نص هذا القسم في هذه النسخة لأنه مستمد من أدلة تكامل لم يُعتمد نشرها بعد.</p><p class="excerpt-key" dir="ltr"><bdi>psp-payment-messages#overview</bdi></p></section><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">TSP API v1.2 — overview and application authorization</p><h4>TSP API overview and quick start</h4><p class="excerpt-withheld" lang="ar" dir="rtl">لا يُعرض نص هذا القسم في هذه النسخة لأنه مستمد من أدلة تكامل لم يُعتمد نشرها بعد.</p><p class="excerpt-key" dir="ltr"><bdi>tsp-authorization#overview</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-02-answer">الإجابة</label>
+      <textarea id="OQ-02-answer" rows="3" data-key="OQ-02.answer"></textarea>
+      <label class="field-label" for="OQ-02-ref">المرجع المعتمد</label>
+      <input id="OQ-02-ref" type="text" data-key="OQ-02.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-03" data-qid="OQ-03">
+  <p class="q-num" aria-hidden="true">3</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-03</p>
+    <h3>الطرف المستقبل «FP» في رسائل PSP</h3>
+    <p class="q-text">تذكر أمثلة <bdi>PSP</bdi> الإصدار 1.3 الطرف «<bdi>FP</bdi>» مستقبلًا للرسائل، وتشير إلى «ملف تكامل <bdi>WENET/FP</bdi>». ما هو <bdi>FP</bdi>؟ وهل يجوز ذكره في الوثائق الخارجية؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> معرّف الطرف المستقبل لازم لبناء رسائل صحيحة، وقد حُذف من الوثائق لأنه غير موضّح.</p>
+    <p class="q-src"><strong>المصادر:</strong> دليل <bdi>PSP</bdi> الإصدار 1.3، البنود 1 و3 و5.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (3 أقسام)</summary><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">PSP API v1.3 — payment-order messages</p><h4>PSP API overview and quick start</h4><p class="excerpt-withheld" lang="ar" dir="rtl">لا يُعرض نص هذا القسم في هذه النسخة لأنه مستمد من أدلة تكامل لم يُعتمد نشرها بعد.</p><p class="excerpt-key" dir="ltr"><bdi>psp-payment-messages#overview</bdi></p></section><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">PSP API v1.3 — payment-order messages</p><h4>Environment, variables and authentication</h4><p class="excerpt-withheld" lang="ar" dir="rtl">لا يُعرض نص هذا القسم في هذه النسخة لأنه مستمد من أدلة تكامل لم يُعتمد نشرها بعد.</p><p class="excerpt-key" dir="ltr"><bdi>psp-payment-messages#environment-and-auth</bdi></p></section><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">PSP API v1.3 — payment-order messages</p><h4>Payment order: lookup</h4><p class="excerpt-withheld" lang="ar" dir="rtl">لا يُعرض نص هذا القسم في هذه النسخة لأنه مستمد من أدلة تكامل لم يُعتمد نشرها بعد.</p><p class="excerpt-key" dir="ltr"><bdi>psp-payment-messages#lookup</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-03-answer">الإجابة</label>
+      <textarea id="OQ-03-answer" rows="3" data-key="OQ-03.answer"></textarea>
+      <label class="field-label" for="OQ-03-ref">المرجع المعتمد</label>
+      <input id="OQ-03-ref" type="text" data-key="OQ-03.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-04" data-qid="OQ-04">
+  <p class="q-num" aria-hidden="true">4</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-04</p>
+    <h3>عدد الطلبات الموثقة في أدلة التكامل</h3>
+    <p class="q-text">يذكر دليل <bdi>PSP</bdi> الإصدار 1.3 تسعة طلبات بينما يوثق سبع نقاط نهاية، ويذكر دليل <bdi>TSP</bdi> الإصدار 1.2 ستة وعشرين طلبًا بينما يسرد خمسة وعشرين. هل توجد طلبات غير موثقة في الأدلة؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> أي عملية ناقصة ستترك المطورين دون توثيق.</p>
+    <p class="q-src"><strong>المصادر:</strong> دليل <bdi>PSP</bdi> الإصدار 1.3، البندان 1 و11؛ دليل <bdi>TSP</bdi> الإصدار 1.2، البندان 1 و12.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">PSP API v1.3 — payment-order messages</p><h4>PSP API overview and quick start</h4><p class="excerpt-withheld" lang="ar" dir="rtl">لا يُعرض نص هذا القسم في هذه النسخة لأنه مستمد من أدلة تكامل لم يُعتمد نشرها بعد.</p><p class="excerpt-key" dir="ltr"><bdi>psp-payment-messages#overview</bdi></p></section><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">TSP API v1.2 — overview and application authorization</p><h4>TSP API overview and quick start</h4><p class="excerpt-withheld" lang="ar" dir="rtl">لا يُعرض نص هذا القسم في هذه النسخة لأنه مستمد من أدلة تكامل لم يُعتمد نشرها بعد.</p><p class="excerpt-key" dir="ltr"><bdi>tsp-authorization#overview</bdi></p></section></details>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-04-decision" value="لا توجد طلبات ناقصة" data-key="OQ-04.decision"> <span>لا توجد طلبات ناقصة</span></label><label class="choice"><input type="radio" name="OQ-04-decision" value="توجد طلبات غير موثقة" data-key="OQ-04.decision"> <span>توجد طلبات غير موثقة</span></label></div></fieldset>
+      <label class="field-label" for="OQ-04-answer">الإجابة</label>
+      <textarea id="OQ-04-answer" rows="3" data-key="OQ-04.answer"></textarea>
+      <label class="field-label" for="OQ-04-ref">المرجع المعتمد</label>
+      <input id="OQ-04-ref" type="text" data-key="OQ-04.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-05" data-qid="OQ-05">
+  <p class="q-num" aria-hidden="true">5</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-05</p>
+    <h3>معيار ISO 20022 عبر «XML وJSON»</h3>
+    <p class="q-text">يذكر سجل الحقائق أن وينت تستخدم <bdi>ISO 20022</bdi> عبر قناتي <bdi>XML</bdi> و<bdi>JSON</bdi>، بينما تقتصر في دليل <bdi>PSP</bdi> الإصدار 1.3 رسائل أوامر الدفع على <bdi>ISO 20022</bdi> بصيغة <bdi>XML</bdi>، أما واجهات التجار والحسابات فهي <bdi>REST/JSON</bdi> عادية. ما الصياغة الدقيقة المعتمدة للنشر؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> حُذفت هذه العبارة من قسم المعايير لتعارض المصادر.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 6؛ دليل <bdi>PSP</bdi> الإصدار 1.3، البندان 5 و6.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">المعايير والأمن</p><h4>المعايير التي تستخدمها وينت</h4><div class="excerpt-body"><p>تشمل معايير المدفوعات والبيانات التي تستخدمها وينت:</p>
+<ul><li><strong>ISO 20022</strong>، وتستخدمه وينت في التراسل بين المؤسسات المالية، كما في تحويلات ITS/P2P؛</li><li><strong>ISO 8583</strong>؛</li><li><strong>رموز QR بأسلوب EMV</strong> وبنية بيانات TLV.</li></ul></div><p class="excerpt-key" dir="ltr"><bdi>standards-and-security#messaging-standards</bdi></p></section><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">Integration overview for developers</p><h4>Message formats</h4><div class="excerpt-body"><p>WeNet's UPI APIs use two message formats:</p>
+<ul><li><strong>ISO 20022 XML</strong> for the PSP API's payment-order messages: the billing-report lookup, the payment-status request (pacs.028, answered with a pacs.002 status report) and payment-order submission (pacs.008, answered with pacs.002).</li><li><strong>JSON over REST</strong> for the PSP API's merchant and financial-account operations, whose errors are returned as problem-details JSON, and for the TSP API's operations. The TSP API's QR-code generation returns an image.</li></ul>
+<p>Both APIs use environment-specific HTTPS hosts. PSP API connections use TLS 1.2 or higher, and XML is sent as UTF-8 so that Arabic and other Unicode text is preserved end to end.</p></div><p class="excerpt-key" dir="ltr"><bdi>integration-overview#message-formats</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-05-answer">الإجابة</label>
+      <textarea id="OQ-05-answer" rows="3" data-key="OQ-05.answer"></textarea>
+      <label class="field-label" for="OQ-05-ref">المرجع المعتمد</label>
+      <input id="OQ-05-ref" type="text" data-key="OQ-05.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-06" data-qid="OQ-06">
+  <p class="q-num" aria-hidden="true">6</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-06</p>
+    <h3>دورة حياة المعرّف UMID واسمه الرسمي</h3>
+    <p class="q-text">ما قواعد إصدار المعرّف <bdi>UMID</bdi> والتحقق منه وإيقافه وإلغائه ومدة صلاحيته؟ وهل اسمه الرسمي «المعرّف الفريد للتاجر» أم «المعرّف الفريد للمنشأة»؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> سيسأل التجار عن مدة صلاحية المعرّف وكيفية إيقافه.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 5 (<bdi>UMID</bdi>) والبند 9 الفقرة 7.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (4 أقسام)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">UMID، المعرف الفريد للتاجر</p><h4>ما هو UMID</h4><div class="excerpt-body"><p>UMID هو المعرف الفريد للتاجر في منظومة وينت كاملة. وهو يعرّف التاجر في جميع خدمات وينت، ويحمي البيانات المالية للتاجر.</p>
+<p>وتصدر وينت المعرف UMID ضمن إجراءات ضم التاجر، التي تبدأ من تطبيق المؤسسة المالية التي يتعامل معها التاجر.</p></div><p class="excerpt-key" dir="ltr"><bdi>umid#overview</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">UMID، المعرف الفريد للتاجر</p><h4>استخدامات UMID للتاجر</h4><div class="excerpt-body"><p>يستخدم التاجر المعرف UMID من أجل:</p>
+<ul><li>الحصول على رمز QR ثابت للتاجر؛</li><li>ربط التاجر بالمزود التقني (TSP)؛</li><li>الحصول على معرفات فريدة لنقاط الدفع عبر المزود التقني؛</li><li>استخدامه عنوانًا لحساب التاجر في مدفوعات B2B.</li></ul></div><p class="excerpt-key" dir="ltr"><bdi>umid#uses</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">البدء كتاجر</p><h4>ما الذي تقدمه وينت بعد بدء الضم</h4><div class="excerpt-body"><p>بعد بدء الضم من تطبيق المؤسسة المالية، تنفذ وينت المهام التالية عبر التكامل التقني مع الأطراف المشاركة والواجهات التي توفرها تلك الأطراف لعملائها:</p>
+<ul><li>إصدار المعرف الفريد للتاجر (UMID)</li><li>التحقق</li><li>ربط التاجر بمزود تقني (TSP)</li><li>إعداد نقاط الدفع والطرفيات</li><li>ربط الحسابات الافتراضية</li><li>توليد رموز QR</li><li>التفعيل والإيقاف والإلغاء</li></ul></div><p class="excerpt-key" dir="ltr"><bdi>getting-started#what-wenet-provides</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">أسئلة التجار الشائعة</p><h4>ما هو المعرف UMID؟</h4><div class="excerpt-body"><p>المعرف UMID هو المعرف الفريد لك كتاجر في منظومة وينت كاملة. وهو يحمي بياناتك المالية، وتستخدمه للحصول على رمز QR ثابت، والربط بمزودك التقني (TSP)، والحصول على معرفات فريدة لنقاط الدفع، واستقبال مدفوعات B2B في حسابك.</p></div><p class="excerpt-key" dir="ltr"><bdi>faq-merchants#what-is-umid</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-06-answer">الإجابة</label>
+      <textarea id="OQ-06-answer" rows="3" data-key="OQ-06.answer"></textarea>
+      <label class="field-label" for="OQ-06-ref">المرجع المعتمد</label>
+      <input id="OQ-06-ref" type="text" data-key="OQ-06.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-07" data-qid="OQ-07">
+  <p class="q-num" aria-hidden="true">7</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-07</p>
+    <h3>وحدة حقل expiry في أوامر الدفع لدى TSP</h3>
+    <p class="q-text">يستخدم مثال إنشاء أمر الدفع في دليل <bdi>TSP</bdi> الإصدار 1.2 القيمة <bdi>"expiry": 10</bdi> دون ذكر الوحدة. هل هي ثوانٍ أم دقائق؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> قد يضبط المطورون مدة صلاحية خاطئة لأوامر الدفع.</p>
+    <p class="q-src"><strong>المصادر:</strong> دليل <bdi>TSP</bdi> الإصدار 1.2، البند 8.2.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسم واحد)</summary><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">TSP API v1.2 — payment methods, payment orders and QR codes</p><h4>Create a payment order</h4><p class="excerpt-withheld" lang="ar" dir="rtl">لا يُعرض نص هذا القسم في هذه النسخة لأنه مستمد من أدلة تكامل لم يُعتمد نشرها بعد.</p><p class="excerpt-key" dir="ltr"><bdi>tsp-orders-and-qr#create-order</bdi></p></section></details>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-07-decision" value="ثوانٍ" data-key="OQ-07.decision"> <span>ثوانٍ</span></label><label class="choice"><input type="radio" name="OQ-07-decision" value="دقائق" data-key="OQ-07.decision"> <span>دقائق</span></label><label class="choice"><input type="radio" name="OQ-07-decision" value="وحدة أخرى" data-key="OQ-07.decision"> <span>وحدة أخرى</span></label></div></fieldset>
+      <label class="field-label" for="OQ-07-answer">الإجابة</label>
+      <textarea id="OQ-07-answer" rows="3" data-key="OQ-07.answer"></textarea>
+      <label class="field-label" for="OQ-07-ref">المرجع المعتمد</label>
+      <input id="OQ-07-ref" type="text" data-key="OQ-07.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-08" data-qid="OQ-08">
+  <p class="q-num" aria-hidden="true">8</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-08</p>
+    <h3>نشر أسماء ترويسات البوابة</h3>
+    <p class="q-text">هل يجوز نشر أسماء ترويسات البوابة المستخدمة في طلبات واجهة <bdi>PSP</bdi> في وثائق المطورين؟ علمًا بأن قيمها محذوفة أصلًا، ولا تُعرض الأسماء في هذه النسخة.</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يحتاجها المطورون، لكنها تكشف جانبًا من إعدادات البوابة.</p>
+    <p class="q-src"><strong>المصادر:</strong> دليل <bdi>PSP</bdi> الإصدار 1.3، البند 3.1.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسم واحد)</summary><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">PSP API v1.3 — payment-order messages</p><h4>Environment, variables and authentication</h4><p class="excerpt-withheld" lang="ar" dir="rtl">لا يُعرض نص هذا القسم في هذه النسخة لأنه مستمد من أدلة تكامل لم يُعتمد نشرها بعد.</p><p class="excerpt-key" dir="ltr"><bdi>psp-payment-messages#environment-and-auth</bdi></p></section></details>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-08-decision" value="يجوز النشر" data-key="OQ-08.decision"> <span>يجوز النشر</span></label><label class="choice"><input type="radio" name="OQ-08-decision" value="لا يجوز النشر" data-key="OQ-08.decision"> <span>لا يجوز النشر</span></label></div></fieldset>
+      <label class="field-label" for="OQ-08-answer">الإجابة</label>
+      <textarea id="OQ-08-answer" rows="3" data-key="OQ-08.answer"></textarea>
+      <label class="field-label" for="OQ-08-ref">المرجع المعتمد</label>
+      <input id="OQ-08-ref" type="text" data-key="OQ-08.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article></section><section class="group" aria-labelledby="g2"><h2 id="g2">المعلومات التجارية والدعم والعملاء</h2><p class="group-intro">معلومات يسأل عنها العملاء والتجار والمؤسسات كثيرًا، ويجيب عنها المساعد حاليًا بأنها غير متاحة.</p>
+<article class="q" id="OQ-09" data-qid="OQ-09">
+  <p class="q-num" aria-hidden="true">9</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-09</p>
+    <h3>نشر معلومات الرسوم والتعرفة</h3>
+    <p class="q-text">هل يجوز نشر أي معلومات عن الرسوم أو التعرفة، مثل أن المرسل يتحمل عمولة التحويل، أو هيكل الرسوم؟ لا تنشر قاعدة المعرفة حاليًا أي مبالغ أو نسب أو هياكل رسوم، ولا من يدفع العمولة.</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> الرسوم من أكثر أسئلة العملاء شيوعًا.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 5 (<bdi>ITS / P2P</bdi>) والبند 7 والبند 9 الفقرة 11.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">معلومات غير متاحة حاليًا</p><h4>الرسوم والتعرفة</h4><div class="excerpt-body"><p>المعلومات المتعلقة برسوم وينت وتعرفتها وإيراداتها، بما في ذلك العمولة على التحويلات والمدفوعات ومن يدفعها، غير متاحة حاليًا. ولمعرفة أي رسوم على مدفوعاتك أو تحويلاتك، تواصل مع بنكك أو مؤسستك المالية. وعلى المؤسسات المالية طلب الشروط التجارية من خلال علاقتها الرسمية مع وينت.</p></div><p class="excerpt-key" dir="ltr"><bdi>not-available#fees-and-tariffs</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">تحويلات ITS / P2P</p><h4>القبول والحدود</h4><div class="excerpt-body"><p>تُقبل عملية التحويل عبر ITS/P2P فقط عند اجتياز التحقق الفني والتجاري معًا، وإلا فإنها تُرفض. ولا توجد حالة معلقة في هذه الخدمة، فالتحويل إما مقبول أو مرفوض.</p>
+<p>وتحدد كل مؤسسة مالية حدود مبالغ التحويل وعدد مرات التحويل وفق سياستها، لذا ينبغي للعميل معرفة الحد الأقصى للتحويل وغيره من الحدود من مؤسسته المالية.</p></div><p class="excerpt-key" dir="ltr"><bdi>its-p2p#acceptance-fees-and-limits</bdi></p></section></details>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-09-decision" value="يجوز النشر" data-key="OQ-09.decision"> <span>يجوز النشر</span></label><label class="choice"><input type="radio" name="OQ-09-decision" value="لا يجوز النشر" data-key="OQ-09.decision"> <span>لا يجوز النشر</span></label><label class="choice"><input type="radio" name="OQ-09-decision" value="يجوز نشر جزء منها" data-key="OQ-09.decision"> <span>يجوز نشر جزء منها</span></label></div></fieldset>
+      <label class="field-label" for="OQ-09-answer">الإجابة</label>
+      <textarea id="OQ-09-answer" rows="3" data-key="OQ-09.answer"></textarea>
+      <label class="field-label" for="OQ-09-ref">المرجع المعتمد</label>
+      <input id="OQ-09-ref" type="text" data-key="OQ-09.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-10" data-qid="OQ-10">
+  <p class="q-num" aria-hidden="true">10</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-10</p>
+    <h3>قنوات الدعم والشكاوى الرسمية</h3>
+    <p class="q-text">ما قنوات الاتصال والدعم والشكاوى الرسمية لدى وينت التي يمكن نشرها للجمهور والتجار والمؤسسات؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يضطر المساعد حاليًا إلى توجيه الجميع إلى بنوكهم.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 8 والبند 9 الفقرة 4.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">معلومات غير متاحة حاليًا</p><h4>بيانات الدعم والاتصال</h4><div class="excerpt-body"><p>بيانات الدعم والاتصال الرسمية لدى وينت، مثل بريد الدعم الرسمي أو رقم الهاتف، غير متاحة حاليًا. وللمساعدة بشأن حساب أو بطاقة أو تحويل أو دفعة، تواصل مع بنكك أو مؤسستك المالية. وعلى المؤسسات المالية والشركاء استخدام قنواتهم الرسمية مع وينت.</p></div><p class="excerpt-key" dir="ltr"><bdi>not-available#support-contacts</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">موقع وينت في منظومة المدفوعات</p><h4>بمن تتواصل</h4><div class="excerpt-body"><p>بيانات الاتصال الرسمية لدى وينت غير متاحة حاليًا. ولأن وينت لا تتعامل مباشرة مع العملاء النهائيين، فالأنسب توجيه الأسئلة المتعلقة بحساب أو بطاقة أو تحويل أو دفعة محددة إلى البنك أو المؤسسة المالية التي استُخدم تطبيقها أو قناتها.</p>
+<p>أما التجار فيتواصلون بشأن قبول المدفوعات مع المؤسسة المالية التي تم ضمهم من خلالها.</p></div><p class="excerpt-key" dir="ltr"><bdi>how-wenet-fits#who-to-contact</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-10-answer">الإجابة</label>
+      <textarea id="OQ-10-answer" rows="3" data-key="OQ-10.answer"></textarea>
+      <label class="field-label" for="OQ-10-ref">المرجع المعتمد</label>
+      <input id="OQ-10-ref" type="text" data-key="OQ-10.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-11" data-qid="OQ-11">
+  <p class="q-num" aria-hidden="true">11</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-11</p>
+    <h3>الاسترداد وعكس العمليات والنزاعات</h3>
+    <p class="q-text">كيف تُعالَج عمليات الاسترداد وعكس العمليات والاعتراضات والنزاعات وملفات التسوية الفاشلة؟ وما الذي يمكن قوله للجمهور عنها؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> «حدث خطأ في تحويلي» من أكثر أسئلة العملاء.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 5 (<bdi>ITS / P2P</bdi> والمقاصة) والبند 9 الفقرتان 5 و13.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">معلومات غير متاحة حاليًا</p><h4>الاسترداد والنزاعات والشكاوى</h4><div class="excerpt-body"><p>المعلومات المتعلقة باسترداد مبلغ تحويل خاطئ، أو بعكس العمليات أو النزاعات أو الشكاوى، غير متاحة حاليًا. وإذا حدث خطأ في تحويل أو دفعة، فتواصل في أقرب وقت مع البنك أو المؤسسة المالية التي استخدمت تطبيقها أو قناتها.</p></div><p class="excerpt-key" dir="ltr"><bdi>not-available#refunds-disputes-complaints</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">المشاركة في وينت</p><h4>المراقبة والدعم</h4><div class="excerpt-body"><p>توفر وينت للمؤسسات المالية المشاركة بوابة إلكترونية لمتابعة العمليات والأرصدة في الوقت الحقيقي.</p>
+<p>كما توفر وينت نظام دعم متكاملًا ودعمًا متخصصًا على مدار الساعة طوال أيام الأسبوع للنزاعات والعمليات غير المطابقة.</p></div><p class="excerpt-key" dir="ltr"><bdi>participating-in-wenet#monitoring-and-support</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-11-answer">الإجابة</label>
+      <textarea id="OQ-11-answer" rows="3" data-key="OQ-11.answer"></textarea>
+      <label class="field-label" for="OQ-11-ref">المرجع المعتمد</label>
+      <input id="OQ-11-ref" type="text" data-key="OQ-11.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-12" data-qid="OQ-12">
+  <p class="q-num" aria-hidden="true">12</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-12</p>
+    <h3>قائمة البنوك والتطبيقات المشاركة</h3>
+    <p class="q-text">هل يمكن لوينت نشر قائمة البنوك والمحافظ والتطبيقات التي تدعم كل خدمة؟ إن كان الجواب نعم، يرجى إرفاق القائمة أو ذكر مصدرها.</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يسأل العملاء أولًا: هل يدعم بنكي هذه الخدمة؟</p>
+    <p class="q-src"><strong>المصادر:</strong> لا يوجد مصدر لها في المواد المقدمة.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسم واحد)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">معلومات غير متاحة حاليًا</p><h4>البنوك والتطبيقات المشاركة</h4><div class="excerpt-body"><p>قائمة البنوك والمحافظ والتطبيقات التي تدعم خدمات وينت غير متاحة حاليًا. اسأل بنكك أو مؤسستك المالية عما إذا كانت تدعم خدمة معينة من خدمات وينت، مثل التحويل إلى بنوك أخرى أو الدفع برمز QR أو البطاقات الصادرة عبر منصة يسر.</p></div><p class="excerpt-key" dir="ltr"><bdi>not-available#participating-banks-and-apps</bdi></p></section></details>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-12-decision" value="يمكن نشرها" data-key="OQ-12.decision"> <span>يمكن نشرها</span></label><label class="choice"><input type="radio" name="OQ-12-decision" value="لا يمكن نشرها" data-key="OQ-12.decision"> <span>لا يمكن نشرها</span></label></div></fieldset>
+      <label class="field-label" for="OQ-12-answer">الإجابة</label>
+      <textarea id="OQ-12-answer" rows="3" data-key="OQ-12.answer"></textarea>
+      <label class="field-label" for="OQ-12-ref">المرجع المعتمد</label>
+      <input id="OQ-12-ref" type="text" data-key="OQ-12.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-13" data-qid="OQ-13">
+  <p class="q-num" aria-hidden="true">13</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-13</p>
+    <h3>موعد وصول المبالغ إلى التجار</h3>
+    <p class="q-text">متى يحصل التجار على أموال المدفوعات التي تتم عبر <bdi>Madar</bdi> ورموز <bdi>QR</bdi>؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يسأل التجار عن موعد إضافة المبالغ إلى حساباتهم.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 5 (<bdi>Madar</bdi>).</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">معلومات غير متاحة حاليًا</p><h4>متى يحصل التاجر على أمواله</h4><div class="excerpt-body"><p>موعد وصول أموال دفعة العميل إلى حساب التاجر غير متاح حاليًا. اسأل بنكك أو مؤسستك المالية عن موعد إضافة المدفوعات إلى حسابك.</p></div><p class="excerpt-key" dir="ltr"><bdi>not-available#merchant-settlement-timing</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">Madar (مدار)، واجهة المدفوعات الموحدة</p><h4>ما هي Madar (مدار)</h4><div class="excerpt-body"><p>Madar (مدار) هي واجهة المدفوعات الموحدة لدى وينت. وهي توسّع نطاق قبول المدفوعات الإلكترونية لعملاء المؤسسات المشاركة، وتوفر نافذة واحدة للخدمات المالية الرقمية. وقد أطلقت وينت خدمات واجهة المدفوعات الموحدة في عام 2026.</p></div><p class="excerpt-key" dir="ltr"><bdi>madar-upi#overview</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-13-answer">الإجابة</label>
+      <textarea id="OQ-13-answer" rows="3" data-key="OQ-13.answer"></textarea>
+      <label class="field-label" for="OQ-13-ref">المرجع المعتمد</label>
+      <input id="OQ-13-ref" type="text" data-key="OQ-13.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-14" data-qid="OQ-14">
+  <p class="q-num" aria-hidden="true">14</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-14</p>
+    <h3>البطاقات الصادرة عبر منصة يسر</h3>
+    <p class="q-text">كيف يحصل حاملو البطاقات على بطاقات صادرة عبر منصة يسر؟ وما حدود منظومة يسر؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> لا تتوفر حاليًا أي معلومات عن الحصول على البطاقات.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 5 (يسر) والبند 9 الفقرة 12.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (3 أقسام)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">معلومات غير متاحة حاليًا</p><h4>الحصول على بطاقة صادرة عبر منصة يسر</h4><div class="excerpt-body"><p>المعلومات المتعلقة بكيفية الحصول على بطاقة صادرة عبر منصة يسر غير متاحة حاليًا. اسأل بنكك أو مؤسستك المالية عما إذا كانت تقدم بطاقات عبر منصة يسر.</p></div><p class="excerpt-key" dir="ltr"><bdi>not-available#getting-a-yusr-card</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">البطاقات والتشغيل البيني للصراف الآلي ونقاط البيع ومنصة يسر</p><h4>يسر (Yusr)، منصة بطاقات الدفع الوطنية</h4><div class="excerpt-body"><p>يسر (Yusr) هي منصة بطاقات الدفع الوطنية، وهي مملوكة لوينت وتديرها وينت.</p>
+<p>وتشمل منصة يسر إصدار البطاقات وإدارة دورة حياتها، والتشغيل البيني للصراف الآلي ونقاط البيع، والتجارة الإلكترونية، والتحويل من بطاقة إلى بطاقة، والمراقبة، والأمن، والتقارير.</p></div><p class="excerpt-key" dir="ltr"><bdi>cards-atm-pos-yusr#yusr</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">الأسئلة الشائعة</p><h4>ما هي يسر؟</h4><div class="excerpt-body"><p>يسر (Yusr) هي منصة بطاقات الدفع الوطنية، وهي مملوكة لوينت وتديرها وينت. وتشمل يسر إصدار البطاقات وإدارة دورة حياتها، والتشغيل البيني للصراف الآلي ونقاط البيع، والتجارة الإلكترونية، والتحويل من بطاقة إلى بطاقة، والمراقبة، والأمن، والتقارير.</p></div><p class="excerpt-key" dir="ltr"><bdi>faq-public#what-is-yusr</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-14-answer">الإجابة</label>
+      <textarea id="OQ-14-answer" rows="3" data-key="OQ-14.answer"></textarea>
+      <label class="field-label" for="OQ-14-ref">المرجع المعتمد</label>
+      <input id="OQ-14-ref" type="text" data-key="OQ-14.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-15" data-qid="OQ-15">
+  <p class="q-num" aria-hidden="true">15</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-15</p>
+    <h3>الوصول إلى بيئة الاختبار وبيانات الاعتماد</h3>
+    <p class="q-text">ما إجراءات حصول جهات التكامل على بيئة الاختبار (<bdi>Sandbox</bdi>) وبيانات اعتماد الواجهات البرمجية؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> هذا أول ما يسأل عنه المطورون.</p>
+    <p class="q-src"><strong>المصادر:</strong> لا يوجد مصدر لها في المواد المقدمة.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">معلومات غير متاحة حاليًا</p><h4>بيئة الاختبار وبيانات اعتماد الواجهات البرمجية</h4><div class="excerpt-body"><p>المعلومات المتعلقة بالحصول على بيئة الاختبار (Sandbox) وبيانات اعتماد الواجهات البرمجية (API) لدى وينت غير متاحة حاليًا. وعلى المؤسسات المالية ومزودي خدمات الدفع والمزودين التقنيين طلب ذلك من خلال علاقتهم الرسمية مع وينت.</p></div><p class="excerpt-key" dir="ltr"><bdi>not-available#sandbox-and-credentials</bdi></p></section><section class="excerpt" lang="en" dir="ltr"><p class="excerpt-doc">Developer FAQ</p><h4>Where can I find the full API reference?</h4><div class="excerpt-body"><p>Endpoint-level documentation for WeNet's APIs is not currently available. Financial institutions, payment service providers and technical providers integrating with WeNet should ask WeNet for it through their official relationship with WeNet.</p></div><p class="excerpt-key" dir="ltr"><bdi>faq-developers#full-api-reference</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-15-answer">الإجابة</label>
+      <textarea id="OQ-15-answer" rows="3" data-key="OQ-15.answer"></textarea>
+      <label class="field-label" for="OQ-15-ref">المرجع المعتمد</label>
+      <input id="OQ-15-ref" type="text" data-key="OQ-15.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-16" data-qid="OQ-16">
+  <p class="q-num" aria-hidden="true">16</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-16</p>
+    <h3>سياسة الخصوصية</h3>
+    <p class="q-text">هل لدى وينت سياسة خصوصية قابلة للنشر؟ إن كانت موجودة، يرجى إرفاقها أو ذكر مكان نشرها.</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يسأل الجمهور عن كيفية التعامل مع بياناتهم.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 6 (حماية البيانات بشكل عام فقط).</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">معلومات غير متاحة حاليًا</p><h4>سياسة الخصوصية</h4><div class="excerpt-body"><p>المعلومات المتعلقة بسياسة الخصوصية لدى وينت غير متاحة حاليًا. ولأسئلتك حول كيفية التعامل مع بياناتك الشخصية عند استخدام خدمة دفع، اسأل بنكك أو مؤسستك المالية.</p></div><p class="excerpt-key" dir="ltr"><bdi>not-available#privacy-notice</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">المعايير والأمن</p><h4>حماية البيانات</h4><div class="excerpt-body"><p>تطبق وينت ضوابط لحماية البيانات وخصوصيتها. وفي مدفوعات QR تتبع وينت مبدأ الحد الأدنى من البيانات، إذ يتجنب تصميم QR لدى وينت حمل بيانات الحسابات أو الأسرار أو البيانات الشخصية التي لا تحتاجها عملية الدفع، ويُتحقق من التاجر والطرفية في السجل المركزي.</p></div><p class="excerpt-key" dir="ltr"><bdi>standards-and-security#data-protection</bdi></p></section></details>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-16-decision" value="نعم، توجد سياسة قابلة للنشر" data-key="OQ-16.decision"> <span>نعم، توجد سياسة قابلة للنشر</span></label><label class="choice"><input type="radio" name="OQ-16-decision" value="لا توجد حاليًا" data-key="OQ-16.decision"> <span>لا توجد حاليًا</span></label></div></fieldset>
+      <label class="field-label" for="OQ-16-answer">الإجابة</label>
+      <textarea id="OQ-16-answer" rows="3" data-key="OQ-16.answer"></textarea>
+      <label class="field-label" for="OQ-16-ref">المرجع المعتمد</label>
+      <input id="OQ-16-ref" type="text" data-key="OQ-16.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-17" data-qid="OQ-17">
+  <p class="q-num" aria-hidden="true">17</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-17</p>
+    <h3>الأسماء المعتمدة بالعربية والإنجليزية</h3>
+    <p class="q-text">يرجى تأكيد الأسماء والتهجئات المعتمدة لما يلي: <bdi>Madar</bdi> وهل يُكتب «مدار» بالعربية؛ و<bdi>UMID</bdi>؛ و<bdi>TSP</bdi> «المزود التقني»، علمًا بأن المصادر لا تذكر الاسم الإنجليزي الكامل له؛ ويسر (<bdi>Yusr</bdi>) وهل تُسمّى البطاقات «بطاقات يسر»؛ ورمز الاستجابة الموحد (<bdi>Unified QR</bdi>)؛ وصياغة محطة عام 2024، إذ تقول قاعدة المعرفة حاليًا «اعتماد وينت بوصفها المقسم الوطني للمدفوعات في اليمن»، بينما يذكر سجل الحقائق «<bdi>designated/approved</bdi>».</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> الأسماء تظهر في كل إجابة تقريبًا، ويجب أن تطابق الاستخدام الرسمي.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 4 والبند 9 الفقرة 2.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (4 أقسام)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">المحطات الرئيسية</p><h4>التسلسل الزمني</h4><div class="excerpt-body"><p>أبرز المحطات في تاريخ وينت:</p>
+<ul><li><strong>2006:</strong> تأسست شركة وينت.</li><li><strong>2018:</strong> تشغيل مقسم البطاقات لدى وينت.</li><li><strong>2023:</strong> تشغيل نظام المدفوعات الفورية لدى وينت.</li><li><strong>2024:</strong> اعتماد وينت بوصفها المقسم الوطني للمدفوعات في اليمن.</li><li><strong>2026:</strong> إطلاق وينت خدمات واجهة المدفوعات الموحدة (Madar).</li></ul></div><p class="excerpt-key" dir="ltr"><bdi>milestones#timeline</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">Madar (مدار)، واجهة المدفوعات الموحدة</p><h4>ما هي Madar (مدار)</h4><div class="excerpt-body"><p>Madar (مدار) هي واجهة المدفوعات الموحدة لدى وينت. وهي توسّع نطاق قبول المدفوعات الإلكترونية لعملاء المؤسسات المشاركة، وتوفر نافذة واحدة للخدمات المالية الرقمية. وقد أطلقت وينت خدمات واجهة المدفوعات الموحدة في عام 2026.</p></div><p class="excerpt-key" dir="ltr"><bdi>madar-upi#overview</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">عن وينت</p><h4>ماذا تقدم وينت</h4><div class="excerpt-body"><p>لوينت أربعة أدوار رئيسية في منظومة المدفوعات اليمنية:</p>
+<ul><li><strong>التشغيل البيني:</strong> تربط وينت المؤسسات المالية بحيث تعمل أنظمتها معًا وتنتقل المدفوعات بينها.</li><li><strong>المقاصة والتسوية:</strong> تقدم وينت خدمات المقاصة والتسوية للعمليات المتبادلة بين المؤسسات المالية المشاركة.</li><li><strong>Madar (مدار)، واجهة المدفوعات الموحدة:</strong> تشغّل وينت واجهة المدفوعات الموحدة Madar للمدفوعات الإلكترونية.</li><li><strong>رمز الاستجابة الموحد (Unified QR):</strong> تصدر وينت رموز الاستجابة الموحدة المستخدمة في الدفع.</li></ul>
+<p>وبهذه الأدوار تعمل وينت بنيةً تحتيةً مشتركةً للمدفوعات لدى المؤسسات المالية المرتبطة بخدماتها.</p></div><p class="excerpt-key" dir="ltr"><bdi>about-wenet#role</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">نظرة عامة على خدمات وينت</p><h4>ما هي خدمات وينت العاملة؟</h4><div class="excerpt-body"><p>خدمات وينت العاملة هي التالية:</p>
+<ol><li><strong>ITS / P2P:</strong> التحويلات بين عملاء مؤسسات مالية مختلفة.</li><li><strong>Madar (مدار)، واجهة المدفوعات الموحدة:</strong> نافذة واحدة للخدمات المالية الرقمية.</li><li><strong>UMID:</strong> المعرف الفريد للتاجر.</li><li><strong>B2B / طلب الدفع / عرض الفواتير:</strong> طلبات الدفع بين المنشآت.</li><li><strong>خدمات المزود التقني (TSP):</strong> أنظمة إدارة التاجر التي يقدمها المزودون التقنيون.</li><li><strong>ضم التجار وموارد التجار.</strong></li><li><strong>رمز الاستجابة الموحد (Unified QR):</strong> رموز QR للدفع.</li><li><strong>المقاصة والتسوية</strong> بين المؤسسات المالية.</li><li><strong>التشغيل البيني للصراف الآلي ونقاط البيع.</strong></li><li><strong>المدفوعات والتحويلات الفورية.</strong></li><li><strong>يسر (Yusr):</strong> منصة بطاقات الدفع الوطنية.</li></ol>
+<p>تُستخدم هذه الخدمات من خلال المؤسسات المالية المشاركة وتطبيقاتها وقنواتها، ويستخدمها التجار أيضًا من خلال نظام إدارة التاجر لدى المزود التقني (TSP)، ولا تتعامل وينت مباشرة مع العملاء النهائيين مثل الأفراد والتجار.</p></div><p class="excerpt-key" dir="ltr"><bdi>services-overview#live-services</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-17-answer">الإجابة</label>
+      <textarea id="OQ-17-answer" rows="3" data-key="OQ-17.answer"></textarea>
+      <label class="field-label" for="OQ-17-ref">المرجع المعتمد</label>
+      <input id="OQ-17-ref" type="text" data-key="OQ-17.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-18" data-qid="OQ-18">
+  <p class="q-num" aria-hidden="true">18</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-18</p>
+    <h3>أهلية المؤسسات وإجراءات الانضمام</h3>
+    <p class="q-text">ما متطلبات الأهلية وإجراءات الانضمام للمؤسسات المالية الجديدة ومزودي خدمات الدفع والمزودين التقنيين؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> تسأل المؤسسات الراغبة في المشاركة عن الخطوة الأولى.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 9 الفقرة 4.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسم واحد)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">المشاركة في وينت</p><h4>ما الذي تقدمه وينت للمؤسسات المالية</h4><div class="excerpt-body"><p>تقدم وينت للمؤسسات المالية المشاركة ما يلي:</p>
+<ul><li>التشغيل البيني مع المؤسسات المالية الأخرى؛</li><li>المقاصة والتسوية للعمليات بين المؤسسات؛</li><li>Madar (مدار)، واجهة المدفوعات الموحدة؛</li><li>رمز الاستجابة الموحد (Unified QR)؛</li><li>مقسم بطاقات لإصدار البطاقات ومراقبتها، مع التشغيل البيني للصراف الآلي ونقاط البيع.</li></ul>
+<p>ووينت مملوكة للمؤسسات المالية المرتبطة بخدماتها، وتعمل تحت الإشراف الكامل للبنك المركزي اليمني.</p></div><p class="excerpt-key" dir="ltr"><bdi>participating-in-wenet#what-wenet-provides</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-18-answer">الإجابة</label>
+      <textarea id="OQ-18-answer" rows="3" data-key="OQ-18.answer"></textarea>
+      <label class="field-label" for="OQ-18-ref">المرجع المعتمد</label>
+      <input id="OQ-18-ref" type="text" data-key="OQ-18.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-19" data-qid="OQ-19">
+  <p class="q-num" aria-hidden="true">19</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-19</p>
+    <h3>معايير وشهادات الأمن القابلة للنشر</h3>
+    <p class="q-text">أي معايير وشهادات أمنية، مثل <bdi>PCI DSS</bdi>، يجوز ذكرها علنًا؟ أُزيل <bdi>PCI DSS</bdi> من قائمة المعايير المنشورة إلى حين الرد.</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يُفهم ذكر الشهادة على أنه إعلان امتثال.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 6 والبند 9 الفقرة 10.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">المعايير والأمن</p><h4>المعايير التي تستخدمها وينت</h4><div class="excerpt-body"><p>تشمل معايير المدفوعات والبيانات التي تستخدمها وينت:</p>
+<ul><li><strong>ISO 20022</strong>، وتستخدمه وينت في التراسل بين المؤسسات المالية، كما في تحويلات ITS/P2P؛</li><li><strong>ISO 8583</strong>؛</li><li><strong>رموز QR بأسلوب EMV</strong> وبنية بيانات TLV.</li></ul></div><p class="excerpt-key" dir="ltr"><bdi>standards-and-security#messaging-standards</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">المعايير والأمن</p><h4>ضوابط الأمن</h4><div class="excerpt-body"><p>تشمل ضوابط الأمن والأمن السيبراني لدى وينت التشفير، والمصادقة، والتوقيعات الرقمية، وإدارة المفاتيح، والتحكم في الوصول، والمراقبة، وسجلات التدقيق، واستمرارية الأعمال.</p></div><p class="excerpt-key" dir="ltr"><bdi>standards-and-security#security-controls</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-19-answer">الإجابة</label>
+      <textarea id="OQ-19-answer" rows="3" data-key="OQ-19.answer"></textarea>
+      <label class="field-label" for="OQ-19-ref">المرجع المعتمد</label>
+      <input id="OQ-19-ref" type="text" data-key="OQ-19.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-20" data-qid="OQ-20">
+  <p class="q-num" aria-hidden="true">20</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-20</p>
+    <h3>المدة المعتادة لتسجيل التاجر</h3>
+    <p class="q-text">كم تستغرق إجراءات ضم التاجر عادةً، من بدء التسجيل في تطبيق المؤسسة المالية حتى التفعيل؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يسأل التجار متى يمكنهم البدء بقبول المدفوعات.</p>
+    <p class="q-src"><strong>المصادر:</strong> لا يوجد مصدر لها في المواد المقدمة.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسم واحد)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">معلومات غير متاحة حاليًا</p><h4>مدة تسجيل التاجر</h4><div class="excerpt-body"><p>المدة التي يستغرقها تسجيل التاجر غير متاحة حاليًا. فضم التاجر يبدأ من بنكك أو مؤسستك المالية، لذا اسأل مؤسستك عن المدة المتوقعة للتسجيل.</p></div><p class="excerpt-key" dir="ltr"><bdi>not-available#merchant-signup-timeline</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-20-answer">الإجابة</label>
+      <textarea id="OQ-20-answer" rows="3" data-key="OQ-20.answer"></textarea>
+      <label class="field-label" for="OQ-20-ref">المرجع المعتمد</label>
+      <input id="OQ-20-ref" type="text" data-key="OQ-20.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article></section><section class="group" aria-labelledby="g3"><h2 id="g3">ملاحظات ظهرت أثناء إعداد المحتوى</h2><p class="group-intro">نقاط لاحظناها أثناء الكتابة والتدقيق، وتحتاج إلى تأكيدكم.</p>
+<article class="q" id="OQ-21" data-qid="OQ-21">
+  <p class="q-num" aria-hidden="true">21</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-21</p>
+    <h3>قائمة القيم الرسمية وصياغة الرؤية والرسالة</h3>
+    <p class="q-text">يذكر سجل الحقائق الرؤية والقيم في جملة واحدة دون تحديد أيها قيم. يرجى تأكيد قائمة القيم الرسمية، والصياغة المعتمدة للرؤية والرسالة.</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> تُعرض هذه النصوص للجمهور بصفتها تعريفًا رسميًا بالشركة.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 2.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">الرؤية والرسالة والقيم</p><h4>القيم</h4><div class="excerpt-body"><p>قيم وينت التي يبرزها وصفها لرؤيتها هي:</p>
+<ul><li>الابتكار</li><li>التشغيل البيني</li><li>الحياد</li><li>الاستقلالية</li><li>الشفافية</li><li>الأمان</li><li>التعاون</li><li>العمل الجماعي</li><li>المسؤولية الاجتماعية</li></ul></div><p class="excerpt-key" dir="ltr"><bdi>vision-mission-values#values</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">الرؤية والرسالة والقيم</p><h4>الرؤية والرسالة</h4><div class="excerpt-body"><p>تتمثل رؤية وينت في أن تكون رائدة للتحول الرقمي من خلال بنية تحتية وطنية وتشاركية ومعيارية وشاملة للمدفوعات الرقمية، توسّع الشمول المالي وتجعل الوصول إلى الخدمات المالية الرقمية أسهل وأكثر أمانًا.</p>
+<p>وتتمثل رسالة وينت، أي التزامها المعلن، في تقديم حلول تكنولوجيا مالية مبتكرة، وبناء بنية تحتية شاملة للمدفوعات الرقمية، ودعم التكامل التنافسي والمعياري بين المؤسسات المالية، وتمكين جميع فئات المجتمع من الوصول إلى الخدمات المالية الرقمية بسهولة وأمان وبتكلفة أقل.</p></div><p class="excerpt-key" dir="ltr"><bdi>vision-mission-values#vision-and-mission</bdi></p></section></details>
+    <div class="answer">
+      
+      <label class="field-label" for="OQ-21-answer">الإجابة</label>
+      <textarea id="OQ-21-answer" rows="3" data-key="OQ-21.answer"></textarea>
+      <label class="field-label" for="OQ-21-ref">المرجع المعتمد</label>
+      <input id="OQ-21-ref" type="text" data-key="OQ-21.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-22" data-qid="OQ-22">
+  <p class="q-num" aria-hidden="true">22</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-22</p>
+    <h3>مطابقة أوصاف رموز QR للمعيار الإنتاجي</h3>
+    <p class="q-text">وثيقة معيار <bdi>QR</bdi> المقدمة وثيقة مقارنة وليست شهادة اعتماد، ولم تكتمل حقولها الإنتاجية واعتمادها النهائي بعد، بينما يذكر سجل الحقائق أن رمز الاستجابة الموحد خدمة عاملة. هل تطابق أوصاف الأنواع المنشورة هنا المعيار الإنتاجي؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يقرأ التجار والجمهور هذه الأوصاف على أنها طريقة عمل الخدمة الفعلية.</p>
+    <p class="q-src"><strong>المصادر:</strong> وثيقة معايير <bdi>QR</bdi>، البندان 4 و6؛ سجل حقائق وينت، البند 5 (رمز الاستجابة الموحد) والبند 9 الفقرة 8.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (5 أقسام)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">الدفع عبر رمز الاستجابة الموحد</p><h4>رمز QR الثابت</h4><div class="excerpt-body"><p>لا يحتوي رمز QR الثابت على مبلغ. فعند الدفع برمز ثابت يدخل العميل المبلغ في تطبيقه، ويعرض التطبيق اسم التاجر الموثوق والعملة. وتُحدَّد هوية التاجر والطرفية من خلال السجل المركزي.</p></div><p class="excerpt-key" dir="ltr"><bdi>unified-qr#static-qr</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">الدفع عبر رمز الاستجابة الموحد</p><h4>رمز QR الديناميكي المتصل</h4><div class="excerpt-body"><p>يرتبط رمز QR الديناميكي المتصل (المتحرك عبر الإنترنت) بعملية أو أمر دفع محدد. وتُدار المبالغ والعملة والمرجع ومدة الصلاحية عبر نظام وينت المتصل، مع ضوابط تمنع معالجة الدفعة نفسها مرتين. وقبل أن يؤكد العميل، يعرض التطبيق المبلغ الموثوق وهوية التاجر. ولا يعاد استخدام رمز QR الديناميكي المتصل ولا أمر الدفع المرتبط به.</p></div><p class="excerpt-key" dir="ltr"><bdi>unified-qr#dynamic-online-qr</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">الدفع عبر رمز الاستجابة الموحد</p><h4>رمز QR الديناميكي غير المتصل</h4><div class="excerpt-body"><p>يدعم رمز QR الديناميكي غير المتصل (المتحرك دون اتصال) العمليات المعتمدة التي تتم دون اتصال. ويستخدم توقيعًا رقميًا مع معرف للمفتاح، وقيمة تُستخدم مرة واحدة، ورقم تسلسل للعمليات غير المتصلة، ومدة صلاحية، إلى جانب ضوابط التسوية والمطابقة المؤجلة.</p></div><p class="excerpt-key" dir="ltr"><bdi>unified-qr#dynamic-offline-qr</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">الدفع عبر رمز الاستجابة الموحد</p><h4>الدفع الآمن عبر رموز QR</h4><div class="excerpt-body"><p>تشترك أنواع رموز QR لدى وينت في ضوابط أمان مشتركة:</p>
+<ul><li>تصدر وينت رموز QR مركزيًا.</li><li>يُتحقق من التاجر والطرفية في السجل المركزي.</li><li>ينص معيار QR لدى وينت على التحقق من بنية الرمز ومجموع التحقق الخاص به (TLV/CRC).</li><li>تتجنب رموز QR البيانات الحساسة غير الضرورية، إذ يتجنب تصميم QR لدى وينت حمل بيانات الحسابات أو الأسرار أو البيانات الشخصية التي لا تحتاجها عملية الدفع.</li><li>في رموز QR الديناميكية يرى العميل اسم التاجر الموثوق والمبلغ والعملة قبل التأكيد.</li><li>تخضع المدفوعات لمراقبة الاحتيال.</li></ul></div><p class="excerpt-key" dir="ltr"><bdi>unified-qr#paying-safely</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">الأسئلة الشائعة</p><h4>كيف أدفع برمز QR؟</h4><div class="excerpt-body"><p>تمسح رمز QR الخاص بالتاجر لدى وينت في تطبيق بنكك أو مؤسستك المالية. فإذا كان الرمز ثابتًا تدخل المبلغ بنفسك ويعرض التطبيق اسم التاجر الموثوق والعملة. وإذا كان الرمز ديناميكيًا متصلًا فإن الدفعة مرتبطة بطلب محدد، ويعرض التطبيق المبلغ الموثوق واسم التاجر قبل أن تؤكد.</p></div><p class="excerpt-key" dir="ltr"><bdi>faq-public#how-do-i-pay-with-qr</bdi></p></section></details>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-22-decision" value="الأوصاف مطابقة" data-key="OQ-22.decision"> <span>الأوصاف مطابقة</span></label><label class="choice"><input type="radio" name="OQ-22-decision" value="تحتاج إلى تعديل" data-key="OQ-22.decision"> <span>تحتاج إلى تعديل</span></label></div></fieldset>
+      <label class="field-label" for="OQ-22-answer">الإجابة</label>
+      <textarea id="OQ-22-answer" rows="3" data-key="OQ-22.answer"></textarea>
+      <label class="field-label" for="OQ-22-ref">المرجع المعتمد</label>
+      <input id="OQ-22-ref" type="text" data-key="OQ-22.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-23" data-qid="OQ-23">
+  <p class="q-num" aria-hidden="true">23</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-23</p>
+    <h3>الاسم القانوني بالإنجليزية</h3>
+    <p class="q-text">لا تذكر المصادر اسمًا قانونيًا إنجليزيًا لشركة الخدمات المالية اليمنية. هل يوجد اسم قانوني رسمي بالإنجليزية؟ إن وُجد، يرجى كتابته كما هو مسجل.</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> يُسأل المساعد عن الاسم القانوني باللغتين.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البند 1.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسمان)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">عن وينت</p><h4>الاسم والهوية</h4><div class="excerpt-body"><p>الاسم القانوني لوينت هو شركة الخدمات المالية اليمنية، واسمها المختصر وينت (WeNet). وينت هي المقسم الوطني للمدفوعات في اليمن، وتعمل في الجمهورية اليمنية.</p>
+<p>المقسم الوطني للمدفوعات هو المنظومة المشتركة التي تربط المؤسسات المالية ببعضها حتى تنتقل المدفوعات والتحويلات بينها. وتوفر وينت هذا الربط للمؤسسات المالية المشاركة في خدماتها. ويستخدم الأفراد والمنشآت خدمات وينت من خلال المؤسسات المالية المشاركة التي يتعاملون معها (ويستخدمها التجار أيضًا من خلال نظام إدارة التاجر لدى المزود التقني TSP)، لا من خلال وينت مباشرة.</p></div><p class="excerpt-key" dir="ltr"><bdi>about-wenet#identity</bdi></p></section><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">الأسئلة الشائعة</p><h4>ما هي وينت؟</h4><div class="excerpt-body"><p>وينت (شركة الخدمات المالية اليمنية) هي المقسم الوطني للمدفوعات في اليمن. تربط وينت المؤسسات المالية حتى تنتقل المدفوعات والتحويلات بينها، وتقدم المقاصة والتسوية وواجهة المدفوعات الموحدة Madar (مدار) ورمز الاستجابة الموحد. ووينت مملوكة للمؤسسات المالية المرتبطة بخدماتها، وتعمل تحت الإشراف الكامل للبنك المركزي اليمني.</p></div><p class="excerpt-key" dir="ltr"><bdi>faq-public#what-is-wenet</bdi></p></section></details>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-23-decision" value="نعم، يوجد اسم رسمي" data-key="OQ-23.decision"> <span>نعم، يوجد اسم رسمي</span></label><label class="choice"><input type="radio" name="OQ-23-decision" value="لا يوجد" data-key="OQ-23.decision"> <span>لا يوجد</span></label></div></fieldset>
+      <label class="field-label" for="OQ-23-answer">الإجابة</label>
+      <textarea id="OQ-23-answer" rows="3" data-key="OQ-23.answer"></textarea>
+      <label class="field-label" for="OQ-23-ref">المرجع المعتمد</label>
+      <input id="OQ-23-ref" type="text" data-key="OQ-23.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article>
+<article class="q" id="OQ-24" data-qid="OQ-24">
+  <p class="q-num" aria-hidden="true">24</p>
+  <div class="q-main">
+    <p class="q-code" dir="ltr">OQ-24</p>
+    <h3>العلاقة بين المدفوعات الفورية وخدمة ITS</h3>
+    <p class="q-text">ما علاقة خدمة المدفوعات الفورية، التي بدأ تشغيلها عام 2023، بخدمة <bdi>ITS/P2P</bdi>؟ وهل هما خدمة واحدة؟</p>
+    <p class="q-why"><strong>سبب السؤال:</strong> تعرض قاعدة المعرفة الخدمتين حاليًا دون توضيح العلاقة بينهما.</p>
+    <p class="q-src"><strong>المصادر:</strong> سجل حقائق وينت، البندان 3 و4.</p>
+    <details class="current"><summary>النص الحالي في قاعدة المعرفة (قسم واحد)</summary><section class="excerpt" lang="ar" dir="rtl"><p class="excerpt-doc">تحويلات ITS / P2P</p><h4>المدفوعات والتحويلات الفورية</h4><div class="excerpt-body"><p>المدفوعات والتحويلات الفورية خدمة عاملة لدى وينت، وقد بدأ تشغيل نظام المدفوعات الفورية لدى وينت في عام 2023.</p>
+<p>وكما هو الحال في خدمات وينت الأخرى، يستخدم العملاء المدفوعات والتحويلات الفورية من خلال تطبيق مؤسستهم المالية المشاركة أو قناتها، لا من خلال وينت مباشرة.</p></div><p class="excerpt-key" dir="ltr"><bdi>its-p2p#instant-payments</bdi></p></section></details>
+    <div class="answer">
+      <fieldset class="decision"><legend>القرار</legend><div class="choices"><label class="choice"><input type="radio" name="OQ-24-decision" value="خدمة واحدة" data-key="OQ-24.decision"> <span>خدمة واحدة</span></label><label class="choice"><input type="radio" name="OQ-24-decision" value="خدمتان مختلفتان" data-key="OQ-24.decision"> <span>خدمتان مختلفتان</span></label></div></fieldset>
+      <label class="field-label" for="OQ-24-answer">الإجابة</label>
+      <textarea id="OQ-24-answer" rows="3" data-key="OQ-24.answer"></textarea>
+      <label class="field-label" for="OQ-24-ref">المرجع المعتمد</label>
+      <input id="OQ-24-ref" type="text" data-key="OQ-24.reference"
+             placeholder="اسم الوثيقة أو الإدارة التي تستند إليها الإجابة">
+    </div>
+  </div>
+</article></section></main>
+</div>
+
+<footer class="page-foot">
+  <p>أُعدّت هذه الوثيقة في 2026-10-05 لمراجعة إدارات وينت، وتتضمن مقتطفات من قاعدة المعرفة قبل اعتمادها. لا تعرض هذه النسخة نصوص أقسام المطورين المستمدة من أدلة التكامل، وتظهر عناوينها فقط.</p>
+</footer>
+
+<script type="application/json" id="question-meta">[{"id": "OQ-01", "title": "إتاحة أدلة التكامل للمطورين عبر قناة خارجية", "affected": ["psp-payment-messages", "psp-merchant-apis", "psp-errors-and-go-live", "tsp-authorization", "tsp-merchants-terminals-accounts", "tsp-orders-and-qr", "tsp-submissions-reconciliation"]}, {"id": "OQ-02", "title": "الإصدارات المعتمدة للواجهات البرمجية وتسميتها", "affected": ["integration-overview#participants-and-apis", "faq-developers#which-apis-exist", "psp-payment-messages#overview", "tsp-authorization#overview"]}, {"id": "OQ-03", "title": "الطرف المستقبل «FP» في رسائل PSP", "affected": ["psp-payment-messages#overview", "psp-payment-messages#environment-and-auth", "psp-payment-messages#lookup"]}, {"id": "OQ-04", "title": "عدد الطلبات الموثقة في أدلة التكامل", "affected": ["psp-payment-messages#overview", "tsp-authorization#overview"]}, {"id": "OQ-05", "title": "معيار ISO 20022 عبر «XML وJSON»", "affected": ["standards-and-security#messaging-standards", "integration-overview#message-formats"]}, {"id": "OQ-06", "title": "دورة حياة المعرّف UMID واسمه الرسمي", "affected": ["umid#overview", "umid#uses", "getting-started#what-wenet-provides", "faq-merchants#what-is-umid"]}, {"id": "OQ-07", "title": "وحدة حقل expiry في أوامر الدفع لدى TSP", "affected": ["tsp-orders-and-qr#create-order"]}, {"id": "OQ-08", "title": "نشر أسماء ترويسات البوابة", "affected": ["psp-payment-messages#environment-and-auth"]}, {"id": "OQ-09", "title": "نشر معلومات الرسوم والتعرفة", "affected": ["not-available#fees-and-tariffs", "its-p2p#acceptance-fees-and-limits"]}, {"id": "OQ-10", "title": "قنوات الدعم والشكاوى الرسمية", "affected": ["not-available#support-contacts", "how-wenet-fits#who-to-contact"]}, {"id": "OQ-11", "title": "الاسترداد وعكس العمليات والنزاعات", "affected": ["not-available#refunds-disputes-complaints", "participating-in-wenet#monitoring-and-support"]}, {"id": "OQ-12", "title": "قائمة البنوك والتطبيقات المشاركة", "affected": ["not-available#participating-banks-and-apps"]}, {"id": "OQ-13", "title": "موعد وصول المبالغ إلى التجار", "affected": ["not-available#merchant-settlement-timing", "madar-upi#overview"]}, {"id": "OQ-14", "title": "البطاقات الصادرة عبر منصة يسر", "affected": ["not-available#getting-a-yusr-card", "cards-atm-pos-yusr#yusr", "faq-public#what-is-yusr"]}, {"id": "OQ-15", "title": "الوصول إلى بيئة الاختبار وبيانات الاعتماد", "affected": ["not-available#sandbox-and-credentials", "faq-developers#full-api-reference"]}, {"id": "OQ-16", "title": "سياسة الخصوصية", "affected": ["not-available#privacy-notice", "standards-and-security#data-protection"]}, {"id": "OQ-17", "title": "الأسماء المعتمدة بالعربية والإنجليزية", "affected": ["milestones#timeline", "madar-upi#overview", "about-wenet#role", "services-overview#live-services"]}, {"id": "OQ-18", "title": "أهلية المؤسسات وإجراءات الانضمام", "affected": ["participating-in-wenet#what-wenet-provides"]}, {"id": "OQ-19", "title": "معايير وشهادات الأمن القابلة للنشر", "affected": ["standards-and-security#messaging-standards", "standards-and-security#security-controls"]}, {"id": "OQ-20", "title": "المدة المعتادة لتسجيل التاجر", "affected": ["not-available#merchant-signup-timeline"]}, {"id": "OQ-21", "title": "قائمة القيم الرسمية وصياغة الرؤية والرسالة", "affected": ["vision-mission-values#values", "vision-mission-values#vision-and-mission"]}, {"id": "OQ-22", "title": "مطابقة أوصاف رموز QR للمعيار الإنتاجي", "affected": ["unified-qr#static-qr", "unified-qr#dynamic-online-qr", "unified-qr#dynamic-offline-qr", "unified-qr#paying-safely", "faq-public#how-do-i-pay-with-qr"]}, {"id": "OQ-23", "title": "الاسم القانوني بالإنجليزية", "affected": ["about-wenet#identity", "faq-public#what-is-wenet"]}, {"id": "OQ-24", "title": "العلاقة بين المدفوعات الفورية وخدمة ITS", "affected": ["its-p2p#instant-payments"]}]</script>
+<script>
+(function () {
+  "use strict";
+  var STORE = "wenet-open-questions-ar-v1";
+  var meta = JSON.parse(document.getElementById("question-meta").textContent);
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(STORE) || "{}") || {}; } catch (e) { state = {}; }
+  var statusEl = document.getElementById("status");
+
+  function grow(el) { if (el.tagName === "TEXTAREA") { el.style.height = "auto"; el.style.height = el.scrollHeight + 2 + "px"; } }
+  function persist() {
+    try { localStorage.setItem(STORE, JSON.stringify(state)); }
+    catch (e) { statusEl.textContent = "تعذّر الحفظ التلقائي في هذا المتصفح. نزّلوا الإجابات قبل إغلاق الصفحة."; }
+  }
+  function value(key) { return (state[key] || "").trim(); }
+  function isAnswered(id) { return !!(value(id + ".answer") || value(id + ".decision")); }
+
+  function refresh() {
+    var count = 0;
+    meta.forEach(function (q) {
+      var done = isAnswered(q.id);
+      if (done) { count += 1; }
+      var article = document.getElementById(q.id);
+      var link = document.querySelector('[data-rail="' + q.id + '"]');
+      article.toggleAttribute("data-answered", done);
+      link.toggleAttribute("data-answered", done);
+      link.querySelector(".rail-state").textContent = done ? "تمت الإجابة" : "لم يُجب عنه بعد";
+    });
+    document.getElementById("answered-count").textContent = count;
+    document.getElementById("progress-bar").style.width = (100 * count / meta.length) + "%";
+  }
+
+  document.querySelectorAll("[data-key]").forEach(function (el) {
+    var saved = state[el.dataset.key];
+    if (saved === undefined) { return; }
+    if (el.type === "radio") { el.checked = el.value === saved; } else { el.value = saved; }
+  });
+  document.querySelectorAll("textarea").forEach(grow);
+
+  function onEdit(event) {
+    var el = event.target;
+    if (!el.dataset || !el.dataset.key) { return; }
+    if (el.type === "radio" && !el.checked) { return; }
+    state[el.dataset.key] = el.value;
+    grow(el);
+    persist();
+    refresh();
+  }
+  document.addEventListener("input", onEdit);
+  document.addEventListener("change", onEdit);
+
+  function csvCell(text) { return '"' + String(text || "").replace(/"/g, '""') + '"'; }
+  document.getElementById("download").addEventListener("click", function () {
+    var header = ["question_id", "عنوان السؤال", "القرار", "الإجابة", "المرجع المعتمد", "الأقسام المتأثرة",
+                  "الاسم", "المسمى الوظيفي", "الإدارة", "تاريخ المراجعة"];
+    var who = [value("respondent.name"), value("respondent.title"), value("respondent.department"), value("respondent.date")];
+    var rows = [header].concat(meta.map(function (q) {
+      return [q.id, q.title, value(q.id + ".decision"), value(q.id + ".answer"), value(q.id + ".reference"),
+              q.affected.join(" ")].concat(who);
+    }));
+    var csv = "﻿" + rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n") + "\r\n";
+    var blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "wenet-answers-" + new Date().toISOString().slice(0, 10) + ".csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(link.href); }, 1000);
+    var count = meta.filter(function (q) { return isAnswered(q.id); }).length;
+    statusEl.textContent = "نُزّل ملف الإجابات (" + count + " من " + meta.length + "). أرسلوه إلى فريق قاعدة المعرفة.";
+  });
+
+  var openedForPrint = [];
+  window.addEventListener("beforeprint", function () {
+    document.querySelectorAll("details.current:not([open])").forEach(function (d) { d.open = true; openedForPrint.push(d); });
+    document.querySelectorAll("textarea").forEach(grow);
+  });
+  window.addEventListener("afterprint", function () {
+    openedForPrint.forEach(function (d) { d.open = false; });
+    openedForPrint = [];
+  });
+  document.getElementById("print").addEventListener("click", function () { window.print(); });
+
+  refresh();
+})();
+</script>
+</body>
+</html>
